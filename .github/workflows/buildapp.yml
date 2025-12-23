@@ -69,7 +69,12 @@ jobs:
       - name: Patch YTUHD for macOS 14 compatibility
         run: |
           cd main/Tweaks/YTUHD
-          patch -p1 < ../../ytuhd-foundation.patch
+          # Check if patch is already applied
+          if ! grep -q "#import <Foundation/Foundation.h>" Header.h; then
+            patch -p1 < ../../ytuhd-foundation.patch
+          else
+            echo "Patch already applied, skipping..."
+          fi
 
       - name: Install Dependencies
         run: brew install ldid dpkg make
