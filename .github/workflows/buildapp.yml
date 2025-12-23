@@ -168,11 +168,12 @@ jobs:
         run: |
           cd ${{ github.workspace }}/main
           # Replace lines in Makefile based on inputs
-          sed -i '' "s/^BUNDLE_ID.*$/BUNDLE_ID = ${{ env.BUNDLE_ID }}/" Makefile
-          sed -i '' "s/^DISPLAY_NAME.*$/DISPLAY_NAME = ${{ env.APP_NAME }}/" Makefile
-          sed -i '' "s/^PACKAGE_VERSION.*$/PACKAGE_VERSION = ${{ env.YT_VERSION }}-5.0.1/" Makefile
-          sed -i '' "s/^export TARGET.*$/export TARGET = iphone:clang:${{ inputs.sdk_version }}:14.0/" Makefile
-          sed -i '' "s/^export SDK_PATH.*$/export SDK_PATH = \$(THEOS)\/sdks\/iPhoneOS${{ inputs.sdk_version }}.sdk\//" Makefile
+          sed -i.bak "s/^BUNDLE_ID.*$/BUNDLE_ID = ${{ env.BUNDLE_ID }}/" Makefile
+          sed -i.bak "s/^DISPLAY_NAME.*$/DISPLAY_NAME = ${{ env.APP_NAME }}/" Makefile
+          sed -i.bak "s/^PACKAGE_VERSION.*$/PACKAGE_VERSION = ${{ env.YT_VERSION }}-5.0.1/" Makefile
+          sed -i.bak "s/^export TARGET.*$/export TARGET = iphone:clang:${{ inputs.sdk_version }}:14.0/" Makefile
+          sed -i.bak "s/^export SDK_PATH.*$/export SDK_PATH = \$(THEOS)\/sdks\/iPhoneOS${{ inputs.sdk_version }}.sdk\//" Makefile
+          rm -f Makefile.bak
           # Build the package
           make package THEOS_PACKAGE_SCHEME=rootless FINALPACKAGE=1
           # Rename the package based on the version
