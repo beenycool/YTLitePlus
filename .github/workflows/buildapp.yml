@@ -66,6 +66,11 @@ jobs:
           ref: ${{ github.event.inputs.commit_id || github.ref }}
           submodules: recursive
 
+      - name: Patch YTUHD for macOS 14 compatibility
+        run: |
+          cd main/Tweaks/YTUHD
+          patch -p1 < ../../ytuhd-foundation.patch
+
       - name: Install Dependencies
         run: brew install ldid dpkg make
 
